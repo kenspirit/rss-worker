@@ -8,5 +8,8 @@
   "scripts": {
     "start": "wrangler dev",
     "deploy": "wrangler publish"
+  },
+  "dependencies": {
+    "rss-parser": "^3.12.0"
   }
 }
