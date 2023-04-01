@@ -7,9 +7,9 @@
  *
  * Learn more at https://developers.cloudflare.com/workers/
  */
-addEventListener('fetch', event => {
-	event.respondWith(handleRequest(event.request))
-})
+// addEventListener('fetch', event => {
+// 	event.respondWith(handleRequest(event.request))
+// })
 
 function getRssField(item, fieldName) {
 	const field = item.querySelector(fieldName);
@@ -49,3 +49,9 @@ async function handleRequest(request) {
 		headers: { 'Content-Type': 'application/json' }
 	})
 };
+
+export default {
+	async fetch(request, env, ctx) {
+		handleRequest(request);
+	}
+}
