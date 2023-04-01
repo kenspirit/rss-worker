@@ -10,5 +10,6 @@
     "deploy": "wrangler publish"
   },
   "dependencies": {
+    "htmlparser2": "^8.0.2"
   }
 }

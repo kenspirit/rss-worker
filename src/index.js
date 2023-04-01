@@ -11,6 +11,8 @@
 // 	event.respondWith(handleRequest(event.request))
 // })
 
+const htmlparser2 = require('htmlparser2');
+
 function getRssField(item, fieldName) {
 	const field = item.querySelector(fieldName);
 	if (field) {
@@ -28,24 +30,26 @@ async function handleRequest(request) {
 	const text = await response.text()
 
 	// Parse the RSS feed and extract the items
-	const parser = new DOMParser()
-	const doc = parser.parseFromString(text, 'text/xml')
-	const items = doc.querySelectorAll('item')
+	// const parser = new DOMParser()
+	// const doc = parser.parseFromString(text, 'text/xml')
+	// const doc = htmlparser2.parseDocument(text);
+	// const items = doc.querySelectorAll('item')
 
-	// Create an array of objects representing the items in the RSS feed
-	const data = []
-	items.forEach(item => {
-		data.push({
-			title: getRssField(item, 'title'),
-			link: getRssField(item, 'link'),
-			pubDate: getRssField(item, 'pubDate'),
-			author: getRssField(item, 'author'),
-			description: getRssField(item, 'description')
-		})
-	})
+	// // Create an array of objects representing the items in the RSS feed
+	// const data = []
+	// items.forEach(item => {
+	// 	data.push({
+	// 		title: getRssField(item, 'title'),
+	// 		link: getRssField(item, 'link'),
+	// 		pubDate: getRssField(item, 'pubDate'),
+	// 		author: getRssField(item, 'author'),
+	// 		description: getRssField(item, 'description')
+	// 	})
+	// })
+	const feed = htmlparser2.parseFeed(text);
 
 	// Return the data as JSON
-	return new Response(JSON.stringify(data), {
+	return new Response(JSON.stringify(feed), {
 		headers: { 'Content-Type': 'application/json' }
 	})
 };
