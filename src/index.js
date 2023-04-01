@@ -52,6 +52,6 @@ async function handleRequest(request) {
 
 export default {
 	async fetch(request, env, ctx) {
-		handleRequest(request);
+		return handleRequest(request);
 	}
 }
