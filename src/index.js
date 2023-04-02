@@ -9,6 +9,7 @@
  */
 
 const htmlparser2 = require('htmlparser2');
+const MAX_POSTS = 3;
 
 async function handleRequest(request) {
 	// Get the URL of the RSS feed from the request query parameters
@@ -24,25 +25,18 @@ async function handleRequest(request) {
 		// Fetch the RSS feed
 		const response = await fetch(feedUrl)
 		const text = await response.text()
+		let maxPost = url.searchParams.get('max')
+		try {
+			maxPost = Number(maxPost);
+		} catch (e) {
+			maxPost = MAX_POSTS;
+		}
+		if (!maxPost || isNaN(maxPost)) {
+			maxPost = MAX_POSTS;
+		}
 
-		// Parse the RSS feed and extract the items
-		// const parser = new DOMParser()
-		// const doc = parser.parseFromString(text, 'text/xml')
-		// const doc = htmlparser2.parseDocument(text);
-		// const items = doc.querySelectorAll('item')
-
-		// // Create an array of objects representing the items in the RSS feed
-		// const data = []
-		// items.forEach(item => {
-		// 	data.push({
-		// 		title: getRssField(item, 'title'),
-		// 		link: getRssField(item, 'link'),
-		// 		pubDate: getRssField(item, 'pubDate'),
-		// 		author: getRssField(item, 'author'),
-		// 		description: getRssField(item, 'description')
-		// 	})
-		// })
 		feed = htmlparser2.parseFeed(text);
+		feed.items.splice(MAX_POSTS, Infinity);
 	}
 
 	// Return the data as JSON
