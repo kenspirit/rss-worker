@@ -36,7 +36,15 @@ async function handleRequest(request) {
 		}
 
 		feed = htmlparser2.parseFeed(text);
-		feed.items.splice(MAX_POSTS, Infinity);
+		if (!feed) {
+			feed = {
+				"type": "atom",
+				"items": []
+			};
+			console.warn(`Failed to parse feed content: ${text}`);
+		} else {
+			feed.items.splice(MAX_POSTS, Infinity);
+		}
 	}
 
 	// Return the data as JSON
