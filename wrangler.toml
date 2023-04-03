@@ -2,3 +2,5 @@ name = "rss-worker"
 main = "src/index.js"
 compatibility_date = "2023-04-01"
 node_compat = true
+account_id = "d3a01add01670a6d82ce9a0cd9fc1ba3"
+workers_dev = true
