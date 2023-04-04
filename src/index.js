@@ -37,7 +37,7 @@ async function handleRequest(request) {
 		if (!maxPost || isNaN(maxPost)) {
 			maxPost = MAX_POSTS;
 		}
-		if (!maxPost || isNaN(maxPost)) {
+		if (!index || isNaN(index)) {
 			index = -1;
 		}
 
