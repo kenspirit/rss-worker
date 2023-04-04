@@ -43,7 +43,7 @@ async function handleRequest(request) {
 			};
 			console.warn(`Failed to parse feed content: ${text}`);
 		} else {
-			feed.items.splice(MAX_POSTS, Infinity);
+			feed.items.splice(maxPost, Infinity);
 		}
 	}
 
