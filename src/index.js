@@ -26,13 +26,19 @@ async function handleRequest(request) {
 		const response = await fetch(feedUrl)
 		const text = await response.text()
 		let maxPost = url.searchParams.get('max')
+		let index = url.searchParams.get('index')
 		try {
 			maxPost = Number(maxPost);
+			index = Number(index);
 		} catch (e) {
 			maxPost = MAX_POSTS;
+			index = -1;
 		}
 		if (!maxPost || isNaN(maxPost)) {
 			maxPost = MAX_POSTS;
+		}
+		if (!maxPost || isNaN(maxPost)) {
+			index = -1;
 		}
 
 		feed = htmlparser2.parseFeed(text);
@@ -42,6 +48,8 @@ async function handleRequest(request) {
 				"items": []
 			};
 			console.warn(`Failed to parse feed content: ${text}`);
+		} else if (index !== -1 && feed.items.length > 0) {
+			feed.items = [feed.items[index] || feed.items[0]]
 		} else {
 			feed.items.splice(maxPost, Infinity);
 		}
